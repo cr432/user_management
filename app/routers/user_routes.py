@@ -140,7 +140,7 @@ async def create_user(user: UserCreate, request: Request, db: AsyncSession = Dep
     Returns:
     - UserResponse: The newly created user's information along with navigation links.
     """
-    existing_user = await UserService.get_by_email(db, user.email)
+    existing_user = await UserService.get_by_email_case_insensitive(db, user.email.strip().lower())
     if existing_user:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already exists")
     
